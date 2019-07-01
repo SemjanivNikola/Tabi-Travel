@@ -11,7 +11,7 @@
 						<b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
 						<b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
 					</b-nav-form>
-					<b-nav-item><b-img v-bind="profileProps" rounded :src="require('../assets/images/Profil.jpeg')" alt="Nikola Semjaniv" /></b-nav-item>
+					<b-nav-item><b-img v-bind="profileProps" rounded :src="require('../assets/images/DefaultProfile.png')" alt="Nikola Semjaniv" /></b-nav-item>
 					<b-nav-item-dropdown right style="padding-top: 2%">
 						<!-- Using 'button-content' slot -->
 						<template slot="button-content"><em>Menu</em></template>
@@ -21,7 +21,7 @@
 						<b-dropdown-item href="#">Cities</b-dropdown-item>
 						<b-dropdown-item href="#">Search</b-dropdown-item>
 						<hr>
-						<b-dropdown-item href="#">Sign Out</b-dropdown-item>
+						<b-dropdown-item @click="emitReplaceToRouter">Sign Out</b-dropdown-item>
 					</b-nav-item-dropdown>
 				</b-navbar-nav>
 			</b-collapse>
@@ -44,13 +44,18 @@
 				var winHeight = window.innerHeight;
 				if (scrollPos === 0) {
 
+
 				}else{
 
 				}
 			})
 		},
 		methods: {
-
+			emitReplaceToRouter () {
+				this.$emit("authenticated", false);
+				this.$router.replace({name: "home"});
+				this.$store.state.userData = [];
+			}
 		},
 		computed: {
 

@@ -14,7 +14,7 @@
 				<div id="user-details-headline" class="child-headline" @click="hideSection(1)">
 					<h1>INFORMATIONS AVALIABLE FOR PUBLIC DISCLOSURE</h1>
 				</div>
-				<div class="user-details-parent" v-bind:style="{ 'height' : ( displayInfoSection ? 'auto' : '0') }" style="padding-top: 2%;">
+				<div class="user-details-parent" v-bind:style="{ 'display' : ( displayInfoSection ? 'block' : 'none') }" style="padding-top: 2%;">
 					<b-button v-if="displayInfoSection &&  !editInfo" @click="editUserInfo" variant="light" class="editFormBtn"><i class="material-icons" style="font-size: 1rem; margin-right: 5%">edit</i>Edit</b-button>
 					<b-button v-if="displayInfoSection && editInfo" @click="editUserInfo" variant="light" class="editFormBtn"><i class="material-icons" style="font-size: 1rem; margin-right: .5%">check</i>Submit</b-button>
 
@@ -74,7 +74,7 @@
 				<div id="achievements-headline" class="child-headline" @click="hideSection(2)">
 					<h1>ACHIEVEMENTS</h1>
 				</div>
-				<div v-bind:style="{ 'height' : ( displayAchievementsSection ? 'auto' : '0') }" class="child-selection">
+				<div v-bind:style="{ 'display' : ( displayAchievementsSection ? 'inline-flex' : 'none') }" class="child-selection">
 					<ul style="list-style-type: none">
 						<li>Filters:</li>
 					</ul>
@@ -87,7 +87,7 @@
 						<hr style="height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
 					</b-form-group>
 				</div>
-				<div class="child-content">
+				<div v-bind:style="{ 'display' : ( displayAchievementsSection ? 'inline-flex' : 'none') }" class="child-content">
 					<div class="left-group">
 						<div class="search-toolbar">
 							<b-form-input id="searchInput" v-model="searchAchievements" type="text" placeholder="Search..."></b-form-input>
@@ -96,8 +96,8 @@
 						</div>
 						<div class="list">
 							<ul style="list-style-type: none">
-								<li v-for="(achievement, index) in achievements" v-bind:key="index" @click="showAchi(achievement)" class="achi-item">
-									<b-img left v-bind="iconProps" alt="Testna ikona"></b-img>
+								<li class="achi-item" v-for="(achievement, index) in achievements" v-bind:key="index" @click="showAchi(achievement)">
+									<b-img left v-bind="iconProps" :src="achievement.icon" alt="Testna ikona"></b-img>
 									<h5>{{achievement.title}}</h5>
 								</li>
 							</ul>
@@ -107,7 +107,7 @@
 						<h3 >{{currAchievement.item[0].title}}</h3>
 						<section style="padding: 4% 0; height: 245px">{{currAchievement.item[0].about}}</section>
 						<b-img v-if="currAchievement.item[0].owned" right :src="require('../assets/icons/unlocked.png')" alt="Unlocked Trophy"></b-img>
-						<b-img v-else @click="unlock" right :src="require('../assets/icons/locked.png')" alt="locked Trophy"></b-img>
+						<b-img v-else @click="unlock" right :src="require('../assets/icons/locked.png')" alt="locked Trophy" class="trophy"></b-img>
 						<section>
 							<p>Difficulty: {{currAchievement.item[0].difficulty}}</p>
 							<p v-if="currAchievement.item[0].owned" class="owned">OWNED</p>
@@ -140,7 +140,7 @@
 				currHeight: 0,
 				profileProps: { width: 220, height: 220, class: ['thumbnail', 'profile-img'] },
 				headerProps: { width: 1220, height: 'auto' },
-				iconProps: { width: 35, height: 35, blank: true, blankColor: '#777' },
+				iconProps: { width: 35, height: 35 },
 				user: {
 					firstName: this.$store.state.userData[2],
 					lastName: this.$store.state.userData[3],
@@ -149,14 +149,14 @@
 					country: this.$store.state.userData[7],
 					city: this.$store.state.userData[8],
 					tier: this.$store.state.userData[9],
-					achievements: this.$store.state.userData[10],
+					achievements: parseInt(this.$store.state.userData[10]),
 					quote: this.$store.state.userData[11],
 					profileImg: this.defaultProfileImg, /* this.$store.state.userData[12] */
 					headerImg: this.defaultHeadImg /* this.$store.state.userData[13] */
 				},
 				selected: 'All',
 				options: [
-					{ text: 'All', value: 'all' },
+					{ text: 'All', value: 'All' },
 					{ text: 'Unlocked', value: 'owned' },
 					{ text: 'Locked', value: 'locked'}
 				],
@@ -171,17 +171,11 @@
 				editInfo: false,
 			}
 		},
-		beforeCreate() {
-
-		},
 		created() {
 			this.getAchievements();
 		},
 		mounted() {
 			document.querySelector('body').style.backgroundImage = this.bgImage;
-		},
-		watch: {
-
 		},
 		methods: {
 			hideSection : function (a) {
@@ -200,19 +194,23 @@
 					this.editInfo = false;
 					const details = {
 						type: 'information',
+						userId: this.$store.state.userData[0],
 						language: this.user.language,
 						country: this.user.country,
 						city: this.user.city,
 						tier: this.user.tier,
-						achievements: this,
+						achievements: this.user.achievements,
 						quote: this.user.quote
 					};
 					this.submitUserInfo(details);
 				}
+
 			},
 			submitUserInfo : function (details) {
+				console.log(details);
 				axios.put("/profile/user/", details)
 						.then((response) => {
+							//console.log(response);
 						})
 						.catch((error) => {
 							alert(error);
@@ -222,12 +220,13 @@
 				await axios.get("/achievements")
 						.then((response) => {
 							this.achievements = response.data.achievements;
+							this.readImages();
 						});
 				const userId = { id: this.$store.state.userData[0]};
 				axios.post("/user/achievements", userId)
 						.then((response) => {
 							response.data.data.forEach(function(value, key){
-								this.updateUnlockedAchi(value[0])
+								this.updateUnlockedAchi(value[0]);
 							}, this)
 						})
 						.catch((error) => {
@@ -262,9 +261,14 @@
 				this.achievements.forEach(function(value, key) {
 					if (value.id === achiId) {
 						value.owned = true;
+						this.user.achievements++;
 					}
-				})
-
+				}, this);
+			},
+			readImages : function () {
+				this.achievements.forEach(function(value, key) {
+					value.icon = `data:image/png;base64,${value.icon}`;
+				});
 			}
 		},
 		computed: {
@@ -444,6 +448,7 @@
 		width: 100%;
 		padding: 1.2%;
 		height: 410px;
+		overflow: hidden;
 	}
 	.list{
 		scroll-behavior: smooth;
@@ -471,6 +476,11 @@
 		border-radius: 5px;
 		padding: 1.2%;
 		text-align: center;
+	}
+	.trophy:hover{
+		background-color: aliceblue;
+		border-radius: 25px;
+		cursor: pointer;
 	}
 	table tr th{
 		height: 34px;
