@@ -1,7 +1,5 @@
 <template>
   <div class="search">
-    <h1>HELLO SEARCH</h1>
-    <router-link :to="{ path: './views/WelcomeTraveler' }">Go to WelcomeTraveler</router-link>
   </div>
 </template>
 

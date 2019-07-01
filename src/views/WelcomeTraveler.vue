@@ -62,12 +62,7 @@
 
 			</div>
 		</transition>
-
 	</div>
-
-	<!--v-bind:style='{"background-image" : ( isActive ? "url(" + imageWelcome + ")" : "url(" + imageLogin + ")" )}'-->
-
-
 </template>
 
 <script>

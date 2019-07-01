@@ -22,18 +22,15 @@
 						<table>
 							<tr>
 								<th>First Name:</th>
-								<td v-if="!editInfo">{{user.firstName}}</td>
-								<td v-else><b-input class="inputTransform" v-model="user.firstName" type="text" :placeholder="user.firstName"></b-input></td>
+								<td>{{user.firstName}}</td>
 							</tr>
 							<tr>
 								<th>Last Name:</th>
-								<td v-if="!editInfo">{{user.lastName}}</td>
-								<td v-else><b-input class="inputTransform" v-model="user.lastName" type="text" :placeholder="user.lastName"></b-input></td>
+								<td>{{user.lastName}}</td>
 							</tr>
 							<tr>
 								<th>Birthday:</th>
-								<td v-if="!editInfo">{{user.dateOfBirth}}</td>
-								<td v-else><b-input class="inputTransform" v-model="user.dateOfBirth" ttpe="date" :placeholder="user.dateOfBirth"></b-input></td>
+								<td>{{user.dateOfBirth}}</td>
 							</tr>
 							<tr>
 								<th>Country:</th>

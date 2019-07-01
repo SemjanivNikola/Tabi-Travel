@@ -16,7 +16,7 @@
 						<!-- Using 'button-content' slot -->
 						<template slot="button-content"><em>Menu</em></template>
 						<b-dropdown-item href="#">World Map</b-dropdown-item>
-						<b-dropdown-item href="#">Flora And Funa</b-dropdown-item>
+						<b-dropdown-item href="#">Flora And Fauna</b-dropdown-item>
 						<b-dropdown-item href="#">Animals</b-dropdown-item>
 						<b-dropdown-item href="#">Cities</b-dropdown-item>
 						<b-dropdown-item href="#">Search</b-dropdown-item>
