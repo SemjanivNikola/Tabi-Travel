@@ -9,14 +9,12 @@ export default new Vuex.Store({
       isActive: false,
       registration_errors: [],
       errorInfo: false
-
   },
   mutations: {
     addErrorToList (state, error) {
       state.registration_errors.push(error);
       alert(state.registration_errors);
     }
-
   },
   actions: {
       fillErrorList ({ commit }, error) {

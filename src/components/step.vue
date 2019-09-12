@@ -36,7 +36,7 @@
                                 type="text"
                                 required
                                 placeholder="First name">
-                            </b-form-input>e
+                            </b-form-input>
                             <b-form-input
                                     id="input-lastName"
                                     class="reg-input form-el-margin"

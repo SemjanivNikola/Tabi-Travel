@@ -345,7 +345,6 @@
 		transition: opacity .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 	}
 	.slide-fade-login-enter, .slide-fade-login-leave-to{
-		transition-delay: .6s;
 		opacity: 0;
 	}
 </style>

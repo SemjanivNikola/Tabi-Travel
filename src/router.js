@@ -22,7 +22,7 @@ export default new Router({
       component: () => import('./views/Profile')
     },
     {
-      path: 'cities',
+      path: '/cities',
       name: 'cities',
       component: () => import('./views/Cities')
     },
@@ -40,6 +40,16 @@ export default new Router({
       path: '/search',
       name: 'search',
       component: Search
+    },
+    {
+      path: '/flora',
+      name: 'flora',
+      component: () => import('./views/Flora')
+    },
+    {
+      path: '/fauna',
+      name: 'fauna',
+      component: () => import('./views/Fauna')
     }
   ]
 })

@@ -1,6 +1,6 @@
 <template>
-    <div class="d-flex justify-content-center">
-        <div class="spinner-border" role="status">
+    <div class="justify-content-center">
+        <div class="spinner-border custome" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
@@ -13,5 +13,8 @@
 </script>
 
 <style scoped>
-
+    .custome{
+        border: 1.25em solid violet;
+        border-right-color: transparent;
+    }
 </style>
